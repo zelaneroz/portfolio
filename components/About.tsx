@@ -1,52 +1,79 @@
-// components/About.tsx
-"use client"
+"use client";
 import { motion } from "framer-motion";
-import IntGlobe from "@/components/IntGlobe";
+import Image from "next/image";
 
 export default function About() {
   return (
-    <section id="about" className="w-full bg-[#1a1a1a] text-white px-[clamp(1rem,6vw,6rem)] py-[clamp(4rem,10vh,6rem)]">
-      <motion.h2
-        className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-accent-400 mb-10 leading-none"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        ABOUT ME<span className="text-accent-400">/</span>
-      </motion.h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-12">
-        {/* Left Column */}
-        <motion.div
-          className="md:col-span-5 flex flex-col gap-4"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <span className="uppercase text-[#c0c0c0] text-[0.875rem] font-medium tracking-widest">
-            (01)
+    <motion.section
+      id="about"
+      className="w-full min-h-screen bg-white px-[clamp(1rem,6vw,6rem)] py-[clamp(2rem,6vh,4rem)] flex flex-col lg:flex-row items-start justify-between gap-8"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+    >
+      {/* Left Column: Text */}
+      {/*<div className="flex flex-col max-w-xl z-10">*/}
+      <div className="flex flex-col max-w-[32ch] z-10">
+        <div className="flex items-baseline gap-2 mb-6">
+          <span className="text-[clamp(3rem,8vw,5.625rem)] font-bold text-[#963267] leading-none">
+            Z
           </span>
-          <p className="text-[clamp(1rem,2vw,1.25rem)] leading-relaxed text-[#e0e0e0] max-w-[40ch]">
-            The world is my classroom, and curiosity is the teacher I trust most...
-          </p>
-        </motion.div>
-
-        {/* Right Column */}
-        <motion.div
-          className="md:col-span-6 md:col-start-7"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          {/* Placeholder for animation object */}
-          <div className="w-full h-[clamp(200px,30vw,400px)] bg-[#e5e5e5] rounded-md flex items-center justify-center text-black text-center font-medium">
-           <IntGlobe/>
-          </div>
-        </motion.div>
+          <span className="text-[clamp(2rem,6vw,5.625rem)] font-light text-black leading-none">
+            z
+          </span>
+        </div>
+        <p className="text-[clamp(1rem,1.5vw,1.5rem)] font-light leading-snug text-black mb-6">
+          The world is my classroom, and curiosity is the teacher I trust most. Every person, project, and place has taught me something—so I try to build with purpose, empathy, and wonder.
+        </p>
+        <p className="text-[clamp(1rem,1.5vw,1.5rem)] font-light leading-snug text-black mb-6">
+          I study Computer Science and Math at Case Western Reserve, where I work across research, teaching, and tech for social good.
+        </p>
+        <p className="text-[clamp(1rem,1.5vw,1.5rem)] font-light leading-snug text-black">
+          What drives me: real-world impact, a global lens, and stories worth telling.
+        </p>
       </div>
-    </section>
+
+      {/* Middle Image */}
+      {/*<div className="flex justify-center lg:justify-end w-full max-w-[425px]">*/}
+      <div className="flex justify-center lg:justify-center w-full max-w-[clamp(300px,32vw,425px)]">
+        <Image
+          src="/images/about/zelan-doodle.jpg"
+          alt="Zelan"
+          width={425}
+          height={635}
+          className="w-full h-auto object-contain"
+        />
+      </div>
+
+      {/* Right Column: some favs */}
+      <div className="flex flex-col items-start gap-4">
+        <p className="text-[clamp(1rem,1.5vw,1.25rem)] font-light">
+          some favs
+        </p>
+
+        <Image
+          src="/images/about/favs.png"
+          alt="Favorites"
+          width={240}
+          height={240}
+          className="w-[clamp(160px,18vw,280px)] h-auto object-contain"
+        />
+
+      {/* Spotify Embed */}
+      <div className="w-full max-w-[clamp(250px,20vw,350px)]">
+        <iframe
+          style={{ borderRadius: "12px" }}
+          src="https://open.spotify.com/embed/playlist/1DNPmQcwc1TwXOYDP99iaV?utm_source=generator"
+          width="100%"
+          height="352"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+</div>
+
+    </motion.section>
   );
 }
