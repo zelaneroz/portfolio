@@ -3,7 +3,7 @@ export default function Navbar() {
     <nav className="w-full h-[60px] relative">
       {/* Mobile */}
       <div className="flex md:hidden justify-between w-full h-full items-center text-[clamp(0.85rem,4vw,1rem)] text-[#4b4b4b]">
-        <span>about</span>
+        <span><a href="#about" className="hover:underline scroll-smooth">about</a></span>
         <span>work</span>
         <span>resume</span>
         <span>contact</span>
