@@ -30,8 +30,8 @@ export const workItems = [
   {
     id: 3,
     logo: "/images/work/cwru.avif",
-    company: "CWRU (CSDS 233)",
-    position: "Teaching Assistant",
+    company: "CWRU (Department of Computer Science and Data Science)",
+    position: "Teaching Assistant for CSDS 233: Data Structures",
     location: "Cleveland, OH",
     dates: "Jan 2025 – Present",
     bullets: [
