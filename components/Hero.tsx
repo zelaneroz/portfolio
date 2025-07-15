@@ -6,7 +6,6 @@ import { GithubIcon } from './icons/github-icon';
 import { LinkedinIcon } from './icons/linkedin-icon';
 import { XIcon } from './icons/x-icon';
 import ArrowDown from "./ArrowDown";
-import { InstagramIcon } from "./icons/instagram-icon";
 
 export default function Hero() {
   return (
@@ -34,6 +33,7 @@ export default function Hero() {
                   >
                     <LinkedinIcon className="h-9 w-9" />
                   </Link>
+                  
                   <Link
                     href="https://github.com/zelaneroz"
                     target="_blank"
@@ -43,27 +43,25 @@ export default function Hero() {
                     <GithubIcon className="h-9 w-9" />
                   </Link>
                   <Link
-                    href="mailto:hi@dalelarroder.com"
+                    href="mailto:zeespanto@gmail.com"
                     aria-label="email"
                     rel="noreferrer"
                   >
                     <AtSignIcon className="h-9 w-9" />
                   </Link>
-                                    <Link
-                    href="https://www.instagram.com/zelaneroz/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="twitter"
-                  >
-                    <InstagramIcon className="h-9 w-9" />
-                  </Link>
                 </div>
               </div>
               <div className="h-14 border-l border-gray-300" />
               <div className="flex flex-wrap space-x-3 space-y-60 opacity-70">
-                <Link href="/work">/work</Link>
-                <Link href="/thoughts">/thoughts</Link>
-                <Link href="/uses">/contact</Link>
+                <Link href="#work" className="hover:underline">/work</Link>
+                <Link href="#field-notes" className="hover:underline">/field notes</Link>
+                <a
+                  href="/ESPANTO-RESUME.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                >/resume</a>
+                <Link href="#contact" className="hover:underline">/contact</Link>
               </div>
             </section>
     </BackgroundGradientAnimation>

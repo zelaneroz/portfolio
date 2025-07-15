@@ -1,8 +1,13 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useInView} from "framer-motion";
+import { useRef } from "react";
+
 import Image from "next/image";
 
 export default function About() {
+  const ref = useRef(null);
+const isInView = useInView(ref, { once: true });
+
   return (
     <motion.section
       id="about"
@@ -12,20 +17,22 @@ export default function About() {
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      {/* Left Column: Text */}
+      {/* Left Column: Text * 8C64FF    /}
       {/*<div className="flex flex-col max-w-xl z-10">*/}
       <div className="flex flex-col max-w-[32ch] z-10">
         <div className="flex items-baseline gap-2 mb-6">
-          <span className="text-[clamp(3rem,8vw,5.625rem)] font-bold text-[#963267] leading-none">
+          <span className="text-[clamp(3rem,8vw,5.625rem)] font-bold text-[#6c00a2] leading-none">
             Z
           </span>
-          <span className="text-[clamp(2rem,6vw,5.625rem)] font-light text-black leading-none">
+          <span className="text-[clamp(2rem,6vw,5.625rem)] font-sans-serif text-black leading-none">
             z
           </span>
         </div>
+        
         <p className="text-[clamp(1rem,1.5vw,1.5rem)] font-light leading-snug text-black mb-6">
           The world is my classroom, and curiosity is the teacher I trust most. Every person, project, and place has taught me something—so I try to build with purpose, empathy, and wonder.
         </p>
+
         <p className="text-[clamp(1rem,1.5vw,1.5rem)] font-light leading-snug text-black mb-6">
           I study Computer Science and Math at Case Western Reserve, where I work across research, teaching, and tech for social good.
         </p>

@@ -75,3 +75,31 @@ body {
     transform: translateY(-50%);
   }
 }
+
+@keyframes typing {
+  from {
+    width: 0ch;
+  }
+  to {
+    width: 12ch;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #963267;
+  }
+}
+
+.typewriter {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #963267;
+  width: 0ch;
+  animation:
+    typing 2s steps(12, end) forwards, blink 0.75s step-end 2s 3;            
+}

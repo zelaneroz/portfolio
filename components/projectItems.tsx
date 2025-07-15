@@ -17,11 +17,20 @@ export const projects = [
     github: "https://github.com/zelaneroz/ClubHub",
   },
   {
+    title: "Research on EEG signal denoising algorithms",
+    img: "/images/projects/ee.png",
+    description:
+      "How does a stochastic algorithm compare to a deterministic iterative algorithm in removing artifacts in simulated EEG time series data?",
+    tech: "Python",
+    github: "https://github.com/zelaneroz/IB-CSHL-2024/tree/main/Extended-Essay",
+  },
+  {
     title: "Truth or Truth",
     img: "/images/projects/truth-or-truth.jpg",
     description:
-      "A habit-building mobile app that gamifies wellness with local prompts and challenges.",
+      "A webapp that encourages meaningful conversations through curated question decks.",
     tech: "React Native, Firebase, Express.js",
     github: "https://github.com/zelaneroz/truth-or-truth",
   },
+  
 ];
