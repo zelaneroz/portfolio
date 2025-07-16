@@ -7,11 +7,21 @@ export const workItems = [
     location: "Philippines",
     dates: "Jul 2025 – Present",
     bullets: [
-      "Investigated how youth and workforce learners interact with AI tools",
-      "Synthesized research findings to inform inclusive curriculum design",
-      "Collaborated with regional education leaders across Southeast Asia",
+      "Led the development of a fully automated AI assessment generation tool by converting a manual prompt chain into a scalable workflow with a user-friendly interface, streamlining content creation for educators at Eskwelabs"
     ],
-    tags: ["EdTech", "UX Research", "Curriculum Design"],
+    tags: ["EdTech", "AI Engineering", "Workflow Automation"],
+  },
+  {
+    id: 8,
+    logo: "/images/work/microsoft.png",
+    company: "Microsoft",
+    position: "Emerging Leaders for College Students Program (ELCSP)",
+    location: "Remote",
+    dates: "Jul 2025 – Present",
+    bullets: [
+      "Selected from a pool of 1300 applicants, the Emerging Leaders for College Students Program (ELCSP) is Microsoft Security’s signature summer initiative designed to shape the next generation of inclusive, purpose-driven leaders—not just for Microsoft, but for the broader tech industry."
+    ],
+    tags: ["Career Readiness", "Leadership Development", "Networking"],
   },
   {
     id: 2,
@@ -91,9 +101,8 @@ export const workItems = [
     location: "Japan",
     dates: "Oct 2022 – Mar 2024",
     bullets: [
-      "Led experiments on cerebellar learning with 40+ participants using prism adaptation",
-      "Developed EEG preprocessing pipelines and reproducible workflows",
-      "Presented findings through oral and poster presentations at Chubu University",
+      "Streamlined weekly analytics reporting by developing a custom Python pipeline to automate data extraction, cleaning, and visualization.",
+      "Contributed to research on prism adaptation and cerebellar error correction by developing experimental protocols with 40+ participants and coordinating team hypotheses and task execution.",
     ],
     tags: ["EEG", "Python", "Experimental Design", "Neuroscience"],
   }

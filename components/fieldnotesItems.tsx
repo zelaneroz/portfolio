@@ -31,7 +31,7 @@ export const items = [
     {
       title: "with Shalom in Siargao",
       image:
-        "../images/memories/shalom.JPG",
+        "../images/memories/shalom.jpeg",
       className: "absolute top-10 left-[20%] rotate-[-5deg] font-light",
     },
     {
@@ -59,7 +59,7 @@ export const items = [
     },
     {
       title: "best roommates ever",
-      image:"../images/memories/roomies.JPG",
+      image:"../images/memories/roomies.jpeg",
       className: "absolute top-40 left-[25%] rotate-[-7deg]",
     },
 

@@ -4,7 +4,6 @@ import Work from "../components/Work";
 import Hero from "../components/Hero";
 import { FieldNotes } from "../components/FieldNotes";
 import End from "../components/End";
-// import {BentoGrid, BentoGridItem} from "./components/ui/bento-grid"; 
 
 export default function Home() {
   return (
@@ -17,6 +16,5 @@ export default function Home() {
     </main>
   );
 
-  
 
 }

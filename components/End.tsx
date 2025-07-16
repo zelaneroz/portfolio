@@ -1,4 +1,5 @@
 import React from "react";
+import { track } from '@vercel/analytics';
 
 export default function End() {
   return (
@@ -49,7 +50,7 @@ export default function End() {
           />
         </label>
 
-        <button className="px-4 py-2 rounded-xl border border-white text-black bg-white hover:bg-[#963267] hover:text-white transition duration-200">
+        <button onClick={()=>{track('send')}} className="px-4 py-2 rounded-xl border border-white text-black bg-white hover:bg-[#963267] hover:text-white transition duration-200">
   send
 </button>
       </form>
