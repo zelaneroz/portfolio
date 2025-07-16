@@ -17,7 +17,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Zelan Eroz Espanto",
   description: "Zelan Eroz Espanto's Portoflio",
-  icons: {icon: [{url: "/images/favicon.png",href: "/images/favicon.png",},],},
 };
 
 export default function RootLayout({
