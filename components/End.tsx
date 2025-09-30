@@ -45,7 +45,7 @@ export default function End() {
       </h2>
       <p className="text-lg mb-2">zeespanto@gmail.com</p>
       <a
-        href="/resume.pdf"
+        href="/ZelanErozEspantoResume.pdf"
         target="_blank"
         rel="noopener noreferrer"
         className="mt-1 mb-10 underline text-lg hover:text-[#963267] transition-all"
