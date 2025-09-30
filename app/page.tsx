@@ -1,6 +1,7 @@
 "use client";
 import About from "../components/About";
 import Work from "../components/Work";
+import Projects from "../components/Projects";
 import Hero from "../components/Hero";
 import { FieldNotes } from "../components/FieldNotes";
 import End from "../components/End";
@@ -11,6 +12,7 @@ export default function Home() {
       <Hero />
       <About />
       <Work />
+      <Projects />
       <FieldNotes />
       <End />
     </main>

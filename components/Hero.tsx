@@ -6,6 +6,7 @@ import { GithubIcon } from './icons/github-icon';
 import { LinkedinIcon } from './icons/linkedin-icon';
 import { XIcon } from './icons/x-icon';
 import ArrowDown from "./ArrowDown";
+import { InstagramIcon } from "./icons/instagram-icon";
 
 export default function Hero() {
   return (
@@ -49,6 +50,22 @@ export default function Hero() {
                   >
                     <AtSignIcon className="h-9 w-9" />
                   </Link>
+                  <Link
+                    href="https://x.com/zelaneroz"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="linkedin"
+                  >
+                    <XIcon className="h-9 w-9" />
+                  </Link>
+                  <Link
+                    href="https://www.instagram.com/zelaneroz/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="linkedin"
+                  >
+                    <InstagramIcon className="h-9 w-9" />
+                  </Link>
                 </div>
               </div>
               <div className="h-14 border-l border-gray-300" />
@@ -56,7 +73,7 @@ export default function Hero() {
                 <Link href="#work" className="hover:underline">/work</Link>
                 <Link href="#field-notes" className="hover:underline">/field notes</Link>
                 <a
-                  href="/ESPANTO-RESUME.pdf"
+                  href="ZelanErozEspantoResume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline"
