@@ -10,6 +10,7 @@ export const workItems = [
       "Led the development of a fully automated AI assessment generation tool by converting a manual prompt chain into a scalable workflow with a user-friendly interface, streamlining content creation for educators at Eskwelabs"
     ],
     tags: ["EdTech", "AI Engineering", "Workflow Automation"],
+    category:"tech"
   },
   {
     id: 8,
@@ -22,6 +23,7 @@ export const workItems = [
       "Selected from a pool of 1300 applicants, the Emerging Leaders for College Students Program (ELCSP) is Microsoft Security’s signature summer initiative designed to shape the next generation of inclusive, purpose-driven leaders—not just for Microsoft, but for the broader tech industry."
     ],
     tags: ["Career Readiness", "Leadership Development", "Networking"],
+    category:"business"
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ export const workItems = [
       "Earned ML certification from Cornell Tech and practiced responsible AI design",
     ],
     tags: ["Machine Learning", "NLP", "Recommender Systems", "Python"],
+    category:"tech"
   },
   {
     id: 3,
@@ -50,6 +53,7 @@ export const workItems = [
       "Helped students navigate core CS concepts through structured guidance",
     ],
     tags: ["Teaching", "Python", "CS Education", "Peer Mentorship"],
+    category:"tech"
   },
   {
     id: 4,
@@ -64,6 +68,7 @@ export const workItems = [
       "Built connections between students and employers in engineering/science fields",
     ],
     tags: ["Career Coaching", "Content Writing", "STEM Outreach"],
+    category:"business"
   },
   {
     id: 5,
@@ -78,6 +83,7 @@ export const workItems = [
       "Visualized findings to support product and brand strategy",
     ],
     tags: ["NLP", "EDA", "Python", "Consumer Analytics"],
+    category:"tech"
   },
   {
     id: 6,
@@ -92,6 +98,7 @@ export const workItems = [
       "Explored social entrepreneurship through systems thinking",
     ],
     tags: ["Sustainability", "Systems Thinking", "Social Impact"],
+    category:"business"
   },
   {
     id: 7,
@@ -105,5 +112,6 @@ export const workItems = [
       "Contributed to research on prism adaptation and cerebellar error correction by developing experimental protocols with 40+ participants and coordinating team hypotheses and task execution.",
     ],
     tags: ["EEG", "Python", "Experimental Design", "Neuroscience"],
+    category:"tech"
   }
 ];
