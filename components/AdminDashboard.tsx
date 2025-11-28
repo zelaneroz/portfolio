@@ -8,7 +8,7 @@ interface BlogPostForm {
   title: string;
   subtitle: string;
   date: string;
-  image: string;
+  image: string; // Not used for upload, but kept for form state
   content: string;
 }
 
@@ -89,16 +89,30 @@ export default function AdminDashboard() {
     setTimeout(() => setMessage(null), 3000);
   };
 
-  const handleBlogSubmit = async (e: React.FormEvent) => {
+  const handleBlogSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
     try {
+      const formData = new FormData();
+      formData.append('title', blogForm.title);
+      formData.append('subtitle', blogForm.subtitle);
+      formData.append('date', blogForm.date);
+      formData.append('content', blogForm.content);
+      
+      // Get image file from input
+      const imageInput = (e.target as HTMLFormElement).querySelector('input[type="file"]') as HTMLInputElement;
+      if (!imageInput?.files || imageInput.files.length === 0) {
+        showMessage("error", "Please select an image file");
+        setLoading(false);
+        return;
+      }
+      formData.append('image', imageInput.files[0]);
+
       const response = await fetch("/api/blog", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(blogForm),
+        body: formData, // Don't set Content-Type header, browser will set it with boundary
       });
 
       if (response.ok) {
@@ -110,6 +124,10 @@ export default function AdminDashboard() {
           image: "",
           content: "",
         });
+        // Reset file input
+        if (imageInput) {
+          imageInput.value = '';
+        }
       } else {
         const data = await response.json().catch(() => ({ error: "Unknown error" }));
         const errorMsg = data.error || `Failed to create blog post (Status: ${response.status})`;
@@ -328,14 +346,16 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-2">Image URL *</label>
+                  <label className="block text-sm mb-2">Image *</label>
                   <input
-                    type="url"
-                    value={blogForm.image}
-                    onChange={(e) => setBlogForm({ ...blogForm, image: e.target.value })}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 focus:outline-none focus:border-white/40"
                     required
                   />
+                  <p className="text-xs text-white/50 mt-2">
+                    Accepted formats: JPEG, PNG, WebP, GIF
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm mb-2">Content (Markdown) *</label>

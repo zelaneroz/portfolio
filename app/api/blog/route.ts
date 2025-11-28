@@ -5,10 +5,14 @@ import { BlogPost } from '@/lib/types';
 
 const blogDataPath = path.join(process.cwd(), 'lib', 'blog-data.json');
 const blogMarkdownDir = path.join(process.cwd(), 'lib', 'blog');
+const blogImagesDir = path.join(process.cwd(), 'public', 'images', 'blog');
 
-// Ensure blog directory exists
+// Ensure directories exist
 if (!fs.existsSync(blogMarkdownDir)) {
   fs.mkdirSync(blogMarkdownDir, { recursive: true });
+}
+if (!fs.existsSync(blogImagesDir)) {
+  fs.mkdirSync(blogImagesDir, { recursive: true });
 }
 
 function readBlogPosts(): BlogPost[] {
@@ -90,28 +94,50 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { title, subtitle, date, image, content } = body;
+    // Parse FormData
+    const formData = await request.formData();
+    const title = formData.get('title') as string;
+    const subtitle = formData.get('subtitle') as string;
+    const date = formData.get('date') as string;
+    const content = formData.get('content') as string;
+    const imageFile = formData.get('image') as File;
 
     // Validate required fields
-    if (!title || !subtitle || !date || !image) {
+    if (!title || !subtitle || !date) {
       const missingFields = [];
       if (!title) missingFields.push('title');
       if (!subtitle) missingFields.push('subtitle');
       if (!date) missingFields.push('date');
-      if (!image) missingFields.push('image');
       return NextResponse.json({ 
         error: `Missing required fields: ${missingFields.join(', ')}` 
       }, { status: 400 });
     }
 
-    // Ensure blog directory exists
+    if (!imageFile || imageFile.size === 0) {
+      return NextResponse.json({ 
+        error: 'Image file is required' 
+      }, { status: 400 });
+    }
+
+    // Validate image file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(imageFile.type)) {
+      return NextResponse.json({ 
+        error: 'Invalid image type. Allowed: JPEG, PNG, WebP, GIF' 
+      }, { status: 400 });
+    }
+
+    // Ensure directories exist
     if (!fs.existsSync(blogMarkdownDir)) {
       fs.mkdirSync(blogMarkdownDir, { recursive: true });
     }
+    if (!fs.existsSync(blogImagesDir)) {
+      fs.mkdirSync(blogImagesDir, { recursive: true });
+    }
 
-    // Generate markdown filename
-    const markdownFile = `${getNextMarkdownNumber()}.md`;
+    // Generate markdown filename and number
+    const markdownNumber = getNextMarkdownNumber();
+    const markdownFile = `${markdownNumber}.md`;
     
     // Save markdown content to file
     try {
@@ -120,6 +146,29 @@ export async function POST(request: NextRequest) {
       console.error('Error writing markdown file:', fileError);
       return NextResponse.json({ 
         error: `Failed to write markdown file: ${fileError.message}` 
+      }, { status: 500 });
+    }
+
+    // Save image file
+    let imagePath: string;
+    try {
+      // Convert File to Buffer
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      
+      // Get file extension
+      const ext = path.extname(imageFile.name) || '.jpg';
+      const imageFilename = `${markdownNumber}${ext}`;
+      const imageFilePath = path.join(blogImagesDir, imageFilename);
+      
+      // Write file
+      fs.writeFileSync(imageFilePath, buffer);
+      
+      imagePath = `/images/blog/${imageFilename}`;
+    } catch (imageError: any) {
+      console.error('Error saving image:', imageError);
+      return NextResponse.json({ 
+        error: `Failed to save image: ${imageError.message}` 
       }, { status: 500 });
     }
 
@@ -139,7 +188,7 @@ export async function POST(request: NextRequest) {
       title,
       subtitle,
       date,
-      image,
+      image: imagePath,
       markdownFile,
       createdAt: new Date().toISOString(),
     };
