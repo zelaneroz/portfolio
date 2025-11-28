@@ -1,11 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { projects } from "./projectItems";
 
 export default function Projects() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 400; // Scroll by 400px
+      const currentScroll = scrollContainerRef.current.scrollLeft;
+      const targetScroll = direction === "left" 
+        ? currentScroll - scrollAmount 
+        : currentScroll + scrollAmount;
+      
+      scrollContainerRef.current.scrollTo({
+        left: targetScroll,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const container = {
     hidden: { opacity: 1 },
     visible: {
@@ -50,7 +67,48 @@ export default function Projects() {
 
       {/* Horizontal Scrollable Carousel */}
       <div className="relative flex-1 flex flex-col justify-center">
-        <div className="flex gap-6 overflow-x-auto pb-6 px-4 scrollbar-hide snap-x snap-mandatory scroll-smooth">
+        {/* Left Arrow */}
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-0 z-10 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          aria-label="Scroll left"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="text-[#DD4AFF]"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+
+        {/* Right Arrow */}
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-0 z-10 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+          aria-label="Scroll right"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="text-[#DD4AFF]"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto pb-6 px-4 scrollbar-hide snap-x snap-mandatory scroll-smooth"
+        >
           {projects.map((project, index) => (
             <motion.div
               key={index}
