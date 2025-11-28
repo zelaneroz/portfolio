@@ -107,6 +107,7 @@ export default function AdminDashboard() {
       let imageUrl = '';
 
       // Upload image
+      console.log("Uploading image:", imageFile.name, imageFile.size, imageFile.type);
       const uploadFormData = new FormData();
       uploadFormData.append('file', imageFile);
 
@@ -115,14 +116,21 @@ export default function AdminDashboard() {
         body: uploadFormData,
       });
 
+      console.log("Upload response status:", uploadResponse.status);
+
       if (!uploadResponse.ok) {
-        const uploadError = await uploadResponse.json().catch(() => ({ error: "Upload failed" }));
-        showMessage("error", uploadError.error || "Failed to upload image");
+        const uploadError = await uploadResponse.json().catch((err) => {
+          console.error("Failed to parse upload error:", err);
+          return { error: `Upload failed with status ${uploadResponse.status}` };
+        });
+        console.error("Upload error details:", uploadError);
+        showMessage("error", uploadError.error || `Failed to upload image (Status: ${uploadResponse.status})`);
         setLoading(false);
         return;
       }
 
       const uploadData = await uploadResponse.json();
+      console.log("Upload success, got URL:", uploadData.url);
       imageUrl = uploadData.url;
 
       // Step 2: Create blog post with image URL

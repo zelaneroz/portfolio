@@ -11,24 +11,44 @@ if (!fs.existsSync(blogImagesDir)) {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Upload endpoint called');
+    
     // Check authentication
     const session = request.cookies.get('admin_session');
+    console.log('Session check:', session?.value);
     if (!session || session.value !== 'authenticated') {
+      console.log('Unauthorized access attempt');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const formData = await request.formData();
-    const file = formData.get('file') as File;
+    // Ensure directory exists
+    if (!fs.existsSync(blogImagesDir)) {
+      console.log('Creating blog images directory:', blogImagesDir);
+      fs.mkdirSync(blogImagesDir, { recursive: true });
+    }
 
-    if (!file || file.size === 0) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    const formData = await request.formData();
+    console.log('FormData received, keys:', Array.from(formData.keys()));
+    
+    const file = formData.get('file') as File | null;
+    console.log('File received:', file ? { name: file.name, size: file.size, type: file.type } : 'null');
+
+    if (!file) {
+      console.log('No file in FormData');
+      return NextResponse.json({ error: 'No file provided in request' }, { status: 400 });
+    }
+
+    if (file.size === 0) {
+      console.log('File is empty');
+      return NextResponse.json({ error: 'File is empty' }, { status: 400 });
     }
 
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    console.log('File type:', file.type);
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json({ 
-        error: 'Invalid file type. Allowed: JPEG, PNG, WebP, GIF' 
+        error: `Invalid file type: ${file.type}. Allowed: JPEG, PNG, WebP, GIF` 
       }, { status: 400 });
     }
 
@@ -37,15 +57,26 @@ export async function POST(request: NextRequest) {
     const ext = path.extname(file.name) || '.jpg';
     const filename = `${timestamp}${ext}`;
     const filePath = path.join(blogImagesDir, filename);
+    console.log('Saving to:', filePath);
 
     // Read file as buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    console.log('Buffer size:', buffer.length);
 
     // Write file
-    fs.writeFileSync(filePath, buffer);
+    try {
+      fs.writeFileSync(filePath, buffer);
+      console.log('File written successfully');
+    } catch (writeError: any) {
+      console.error('Write error:', writeError);
+      return NextResponse.json({ 
+        error: `Failed to write file: ${writeError.message}` 
+      }, { status: 500 });
+    }
 
     const imageUrl = `/images/blog/${filename}`;
+    console.log('Upload successful, URL:', imageUrl);
     
     return NextResponse.json({ 
       success: true, 
@@ -55,8 +86,10 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('Image upload error:', error);
+    console.error('Error stack:', error.stack);
     return NextResponse.json({ 
-      error: `Upload failed: ${error.message || 'Unknown error'}` 
+      error: `Upload failed: ${error.message || 'Unknown error'}`,
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     }, { status: 500 });
   }
 }
