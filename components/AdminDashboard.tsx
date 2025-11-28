@@ -95,24 +95,47 @@ export default function AdminDashboard() {
     setMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append('title', blogForm.title);
-      formData.append('subtitle', blogForm.subtitle);
-      formData.append('date', blogForm.date);
-      formData.append('content', blogForm.content);
-      
-      // Get image file from input
+      // Step 1: Upload image first
       const imageInput = (e.target as HTMLFormElement).querySelector('input[type="file"]') as HTMLInputElement;
       if (!imageInput?.files || imageInput.files.length === 0) {
         showMessage("error", "Please select an image file");
         setLoading(false);
         return;
       }
-      formData.append('image', imageInput.files[0]);
 
+      const imageFile = imageInput.files[0];
+      let imageUrl = '';
+
+      // Upload image
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', imageFile);
+
+      const uploadResponse = await fetch("/api/blog/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      if (!uploadResponse.ok) {
+        const uploadError = await uploadResponse.json().catch(() => ({ error: "Upload failed" }));
+        showMessage("error", uploadError.error || "Failed to upload image");
+        setLoading(false);
+        return;
+      }
+
+      const uploadData = await uploadResponse.json();
+      imageUrl = uploadData.url;
+
+      // Step 2: Create blog post with image URL
       const response = await fetch("/api/blog", {
         method: "POST",
-        body: formData, // Don't set Content-Type header, browser will set it with boundary
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: blogForm.title,
+          subtitle: blogForm.subtitle,
+          date: blogForm.date,
+          image: imageUrl,
+          content: blogForm.content,
+        }),
       });
 
       if (response.ok) {
