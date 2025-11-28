@@ -20,7 +20,6 @@ export default function AdminDashboard() {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     // Set default date to current date
