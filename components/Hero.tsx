@@ -71,6 +71,7 @@ export default function Hero() {
               <div className="h-14 border-l border-gray-300" />
               <div className="flex flex-wrap space-x-3 space-y-60 opacity-70">
                 <Link href="#work" className="hover:underline">/work</Link>
+                <Link href="/blog" className="hover:underline">/blog</Link>
                 <Link href="#field-notes" className="hover:underline">/field notes</Link>
                 <a
                   href="ZelanErozEspantoResume.pdf"
