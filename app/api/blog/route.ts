@@ -93,17 +93,47 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { title, subtitle, date, image, content } = body;
 
+    // Validate required fields
     if (!title || !subtitle || !date || !image) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+      const missingFields = [];
+      if (!title) missingFields.push('title');
+      if (!subtitle) missingFields.push('subtitle');
+      if (!date) missingFields.push('date');
+      if (!image) missingFields.push('image');
+      return NextResponse.json({ 
+        error: `Missing required fields: ${missingFields.join(', ')}` 
+      }, { status: 400 });
+    }
+
+    // Ensure blog directory exists
+    if (!fs.existsSync(blogMarkdownDir)) {
+      fs.mkdirSync(blogMarkdownDir, { recursive: true });
     }
 
     // Generate markdown filename
     const markdownFile = `${getNextMarkdownNumber()}.md`;
     
     // Save markdown content to file
-    writeMarkdownFile(markdownFile, content || '');
+    try {
+      writeMarkdownFile(markdownFile, content || '');
+    } catch (fileError: any) {
+      console.error('Error writing markdown file:', fileError);
+      return NextResponse.json({ 
+        error: `Failed to write markdown file: ${fileError.message}` 
+      }, { status: 500 });
+    }
 
-    const posts = readBlogPosts();
+    // Read and update posts
+    let posts: BlogPost[];
+    try {
+      posts = readBlogPosts();
+    } catch (readError: any) {
+      console.error('Error reading blog posts:', readError);
+      return NextResponse.json({ 
+        error: `Failed to read blog posts: ${readError.message}` 
+      }, { status: 500 });
+    }
+
     const newPost: BlogPost = {
       id: Date.now().toString(),
       title,
@@ -115,10 +145,22 @@ export async function POST(request: NextRequest) {
     };
 
     posts.push(newPost);
-    writeBlogPosts(posts);
+
+    // Write updated posts
+    try {
+      writeBlogPosts(posts);
+    } catch (writeError: any) {
+      console.error('Error writing blog posts:', writeError);
+      return NextResponse.json({ 
+        error: `Failed to save blog post: ${writeError.message}` 
+      }, { status: 500 });
+    }
 
     return NextResponse.json({ ...newPost, content }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create blog post' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Unexpected error creating blog post:', error);
+    return NextResponse.json({ 
+      error: `Failed to create blog post: ${error.message || 'Unknown error'}` 
+    }, { status: 500 });
   }
 }

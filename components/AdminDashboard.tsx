@@ -111,11 +111,14 @@ export default function AdminDashboard() {
           content: "",
         });
       } else {
-        const data = await response.json();
-        showMessage("error", data.error || "Failed to create blog post");
+        const data = await response.json().catch(() => ({ error: "Unknown error" }));
+        const errorMsg = data.error || `Failed to create blog post (Status: ${response.status})`;
+        console.error("Blog post creation failed:", errorMsg, data);
+        showMessage("error", errorMsg);
       }
-    } catch (error) {
-      showMessage("error", "Failed to create blog post. Please try again.");
+    } catch (error: any) {
+      console.error("Blog post creation error:", error);
+      showMessage("error", `Failed to create blog post: ${error.message || "Network error"}`);
     } finally {
       setLoading(false);
     }
