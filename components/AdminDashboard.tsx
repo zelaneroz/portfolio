@@ -114,6 +114,7 @@ export default function AdminDashboard() {
       const uploadResponse = await fetch("/api/blog/upload", {
         method: "POST",
         body: uploadFormData,
+        credentials: "include", // Include cookies for authentication
       });
 
       console.log("Upload response status:", uploadResponse.status);

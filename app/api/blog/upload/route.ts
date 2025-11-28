@@ -9,6 +9,22 @@ if (!fs.existsSync(blogImagesDir)) {
   fs.mkdirSync(blogImagesDir, { recursive: true });
 }
 
+// Route configuration
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+// Handle OPTIONS for CORS
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     console.log('Upload endpoint called');
