@@ -102,7 +102,7 @@ export default function AdminDashboard() {
       });
 
       if (response.ok) {
-        showMessage("success", "Blog post created successfully!");
+        showMessage("success", "Blog post created successfully! Content saved as markdown file.");
         setBlogForm({
           title: "",
           subtitle: "",
@@ -335,13 +335,18 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-2">Content (optional)</label>
+                  <label className="block text-sm mb-2">Content (Markdown) *</label>
                   <textarea
                     value={blogForm.content}
                     onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
-                    rows={6}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                    rows={12}
+                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 font-mono text-sm"
+                    placeholder="Write your blog post content in Markdown format..."
+                    required
                   />
+                  <p className="text-xs text-white/50 mt-2">
+                    Content will be saved as a numbered markdown file (e.g., 01.md, 02.md)
+                  </p>
                 </div>
                 <button
                   type="submit"
