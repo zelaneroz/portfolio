@@ -7,9 +7,11 @@ import { LinkedinIcon } from './icons/linkedin-icon';
 import { XIcon } from './icons/x-icon';
 import ArrowDown from "./ArrowDown";
 import { InstagramIcon } from "./icons/instagram-icon";
+import NewLanding from "./NewLanding";
 
 export default function Hero() {
   return (
+    <>
     <BackgroundGradientAnimation>
         <ArrowDown />
       <div className="w-full min-h-screen px-[clamp(1rem,6vw,6rem)] absolute z-50 -translate-y-15 inset-0 flex items-center justify-center text-white font-serif px-4 pointer-events-none text-3xl text-center lg:text-5xl">
@@ -82,5 +84,6 @@ export default function Hero() {
               </div>
             </section>
     </BackgroundGradientAnimation>
+    </>
   );
 }
