@@ -156,7 +156,7 @@ export default function SiteLayout() {
   className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8"
 >
         <div className="overflow-hidden rounded-sm">
-          <div className="relative aspect-[16/8] sm:aspect-[16/6] md:aspect-[16/5] w-[90%] mx-auto bg-black/10">
+          <div className="relative aspect-[16/8] sm:aspect-[16/6] md:aspect-[16/5] w-full mx-auto bg-black/10">
             <Image
               src={zelan}
               alt="Zelan"
@@ -237,11 +237,10 @@ export default function SiteLayout() {
           </div>
         </div>
       </main>
-      <CustomCursor />
       </div>
 
       
-<div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+{/* <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
   <button
     onClick={() =>
       document.getElementById("about")?.scrollIntoView({
@@ -266,54 +265,10 @@ export default function SiteLayout() {
       <path d="M12 5v14" />
     </svg>
   </button>
-</div>
+</div> */}
       </div>
 
       
   );
 }
 
-function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleHoverOn = () => setIsHovering(true);
-    const handleHoverOff = () => setIsHovering(false);
-
-    window.addEventListener("mousemove", move);
-
-    const links = document.querySelectorAll("a");
-    links.forEach((el) => {
-      el.addEventListener("mouseenter", handleHoverOn);
-      el.addEventListener("mouseleave", handleHoverOff);
-    });
-
-    return () => {
-      window.removeEventListener("mousemove", move);
-      links.forEach((el) => {
-        el.removeEventListener("mouseenter", handleHoverOn);
-        el.removeEventListener("mouseleave", handleHoverOff);
-      });
-    };
-  }, []);
-
-  return (
-    <div
-      className="pointer-events-none fixed top-0 left-0 z-[9999] transition-all duration-150 ease-out"
-      style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-      }}
-    >
-      <div
-        className={`rounded-full transition-all duration-200 ease-out ${
-          isHovering ? "w-8 h-8 bg-[#ffb5d0]" : "w-[13px] h-[13px] bg-[#c6ff57]"
-        } -translate-x-1/2 -translate-y-1/2`}
-      />
-    </div>
-  );
-}
