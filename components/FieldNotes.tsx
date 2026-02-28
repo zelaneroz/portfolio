@@ -46,7 +46,7 @@ export function FieldNotes() {
           Some treasured moments — algorithm randomly picks 5 photos each time. 
           Words, favorites, stories, and more on {" "}
           <a
-            href="https://substack.com/@zelaneroz?utm_campaign=profile&utm_medium=profile-page"
+            href="/thoughts"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative inline-block font-extrabold text-[#0038de] hover:text-[#c6ff57] transition-colors duration-200"

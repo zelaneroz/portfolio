@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 type Point = { x: number; y: number };
 
 export default function CustomCursor() {
-  const TRAIL_LEN = 9;
+  const TRAIL_LEN = 5;
   const HEAD_SIZE = 18;
   const TAIL_SHRINK = 0.82;
   const BASE_OPACITY = 0.9;
@@ -129,21 +129,12 @@ export default function CustomCursor() {
             top: 0,
             width: size,
             height: size,
-            // borderRadius: 9999,
             opacity,
             willChange: "transform",
-            // background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.85), ${color} 55%, rgba(0,0,0,0) 72%)`,
-            // boxShadow:
-            //   i === 0
-            //     ? `0 0 18px ${color}, 0 0 40px rgba(198,255,87,0.25)`
-            //     : `0 0 ${10 + i * 2}px ${color}`,
             background: color,
               clipPath:
                 "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-              boxShadow:
-                i === 0
-                  ? `0 0 18px ${color}, 0 0 40px ${color}`
-                  : `0 0 ${8 + i * 2}px ${color}`,
+              boxShadow: i === 0 ? `0 0 14px ${color}` : "none",
             filter: blur ? `blur(${blur}px)` : undefined,
             transition: "background 150ms ease, box-shadow 150ms ease",
           }}

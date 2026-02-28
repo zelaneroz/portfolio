@@ -88,6 +88,8 @@ export default function SiteLayout() {
     ],
     []
   );
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const coords = useMemo(() => ({ lat: 1.3586, lng: 103.9899 }), []);
 
@@ -102,7 +104,8 @@ export default function SiteLayout() {
       id="home"
       className="relative min-h-screen bg-[#0038de] text-[#fff5f2] cursor-none overflow-hidden"
     >
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
+    <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
+      {mounted && (
         <BackgroundGradientAnimation
           gradientBackgroundStart="#0038de"
           gradientBackgroundEnd="#0038de"
@@ -113,7 +116,8 @@ export default function SiteLayout() {
           pointerColor="#c6ff57"
           className="absolute inset-0 -z-10 opacity-20 pointer-events-none"
         />
-      </div>
+      )}
+    </div>
 
       <div className="relative z-10">
         {/* ── Header ── */}
