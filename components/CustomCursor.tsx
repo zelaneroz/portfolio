@@ -64,6 +64,14 @@ export default function CustomCursor() {
       };
     };
 
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+    useEffect(() => {
+      setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+    }, []);
+
+    if (isTouchDevice) return null;
+
     window.addEventListener("mousemove", onMove);
     const detachHover = attachHover();
 

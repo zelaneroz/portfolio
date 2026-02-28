@@ -129,7 +129,7 @@ export default function SiteLayout() {
         >
           <div className="flex items-start justify-between gap-6">
             {/* Left nav */}
-            <nav className="grid grid-cols-2 gap-x-10 gap-y-0.7 leading-none">
+            <nav className="grid grid-cols-2 gap-x-5 sm:gap-x-10 gap-y-1 leading-none">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
@@ -161,52 +161,31 @@ export default function SiteLayout() {
 
             {/* Right — email + icons */}
             <div className="shrink-0 text-right leading-tight">
-              <div className="text-sm sm:text-base tracking-wide mb-2">
+              {/* Email — hide on small screens to save space */}
+              <div className="hidden sm:block text-sm sm:text-base tracking-wide mb-2">
                 zeespanto@gmail.com
               </div>
-              <div className="flex items-center justify-end gap-3">
-                <Link
-                  href="https://github.com/zelaneroz"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="github"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  <GithubIcon className="h-10 w-10" />
+
+              <div className="flex items-center justify-end gap-2 sm:gap-3">
+                <Link href="https://github.com/zelaneroz" target="_blank" rel="noreferrer" aria-label="github"
+                  className="opacity-80 hover:opacity-100 transition-opacity">
+                  <GithubIcon className="h-6 w-6 sm:h-8 sm:w-8" />
                 </Link>
-                {/* <Link
-                  href="mailto:zeespanto@gmail.com"
-                  aria-label="email"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  <AtSignIcon className="h-8 w-8" />
-                </Link> */}
-                <Link
-                  href="https://www.linkedin.com/in/zelanespanto/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="linkedin"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  <LinkedinIcon className="h-10 w-10" />
+                <Link href="mailto:zeespanto@gmail.com" aria-label="email"
+                  className="opacity-80 hover:opacity-100 transition-opacity">
+                  <AtSignIcon className="h-6 w-6 sm:h-8 sm:w-8" />
                 </Link>
-                <Link
-                  href="https://x.com/yourhandle"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="x"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  <XIcon className="h-10 w-10" />
+                <Link href="https://www.linkedin.com/in/zelanespanto/" target="_blank" rel="noreferrer" aria-label="linkedin"
+                  className="opacity-80 hover:opacity-100 transition-opacity">
+                  <LinkedinIcon className="h-6 w-6 sm:h-8 sm:w-8" />
                 </Link>
-                <Link
-                  href="/ZelanErozEspantoResume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="resume"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
-                >
-                  <FileText className="h-6 w-6" />
+                <Link href="https://x.com/yourhandle" target="_blank" rel="noreferrer" aria-label="x"
+                  className="opacity-80 hover:opacity-100 transition-opacity">
+                  <XIcon className="h-6 w-6 sm:h-8 sm:w-8" />
+                </Link>
+                <Link href="/ZelanErozEspantoResume.pdf" target="_blank" rel="noopener noreferrer" aria-label="resume"
+                  className="opacity-80 hover:opacity-100 transition-opacity">
+                  <FileText className="h-6 w-6 sm:h-8 sm:w-8" />
                 </Link>
               </div>
             </div>
