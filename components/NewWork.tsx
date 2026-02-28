@@ -47,16 +47,16 @@ const evItems: WorkItem[] = useMemo(
 
 const navLinks = useMemo(
   () => [
-    { label: "WORK", href: "#work" },
-    { label: "ABOUT", href: "#about" },
+    { label: "HOME", href: "#home" },
+    { label: "PROJECTS", href: "#projects" },
     { label: "CONTACT", href: "#contact" },
-    { label: "MUSINGS", href: "#musings" },
+    { label: "THOUGHTS", href: "#thoughts" },
   ],
   []
 );
 
   return (
-    <section className="relative h-screen w-full bg-white text-black overflow-hidden">
+    <section id="work" className="relative h-screen w-full bg-white text-black overflow-hidden">
   <div className="mx-auto grid h-full w-full max-w-6xl grid-rows-[auto_1fr_auto] px-6 py-6 md:px-10 md:py-8">
         {/* Top row */}
         <div className="flex items-start justify-between gap-6">
@@ -107,15 +107,6 @@ const navLinks = useMemo(
           </div>
 
           {/* Menu icon */}
-          {/* <button
-            type="button"
-            aria-label="Open menu"
-            className="mt-2 rounded-sm p-2 transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-black/40"
-          >
-            <Image src={menu} alt="Menu" width={34} height={34} priority />
-          </button> */}
-            {/* Menu (hover OR click) */}
-{/* Menu (hover OR click) */}
         <div
         className="relative mt-2"
         onMouseEnter={() => setMenuOpen(true)}
@@ -162,10 +153,6 @@ const navLinks = useMemo(
         </div>
 
         {/* List */}
-        {/* <div className="mt-8 flex flex-1 flex-col justify-between"> */}
-        {/* <div className="mt-6 grid flex-1 grid-rows-4 gap-5"> */}
-        {/* List */}
-        {/* List */}
         <div className="mt-5 max-h-[68vh] md:max-h-[64vh] min-h-0">
         <div className="grid h-full min-h-0 grid-rows-4 gap-4 md:gap-5">
             {items.map((it) => (
@@ -185,14 +172,13 @@ const navLinks = useMemo(
                     </div>
 
                     {/* Role: clamp so it can't expand the card */}
-                    <div className="mt-1 text-[clamp(14px,1.6vw,18px)] leading-snug overflow-hidden">
-                    <span className="block md:truncate">
-                        {it.role}
-                    </span>
-                    {/* On smaller screens, allow up to 2 lines then clip */}
-                    <span className="hidden max-md:block [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] overflow-hidden">
-                        {it.role}
-                    </span>
+                    <div className="mt-1 text-[clamp(14px,1.6vw,18px)] leading-snug 
+                      md:truncate 
+                      max-md:[display:-webkit-box] 
+                      max-md:[-webkit-line-clamp:2] 
+                      max-md:[-webkit-box-orient:vertical] 
+                      overflow-hidden">
+                      {it.role}
                     </div>
                 </div>
 

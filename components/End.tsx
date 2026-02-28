@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { track } from '@vercel/analytics';
+import { track } from "@vercel/analytics";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function End() {
   const [showNotification, setShowNotification] = useState(false);
@@ -13,91 +14,149 @@ export default function End() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('https://formspree.io/f/mqalkeoo', {
-        method: 'POST',
+      const response = await fetch("https://formspree.io/f/mqalkeoo", {
+        method: "POST",
         body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { Accept: "application/json" },
       });
 
       if (response.ok) {
-        track('send');
+        track("send");
         setShowNotification(true);
         form.reset();
-        
-        // Auto-hide notification after 3 seconds
-        setTimeout(() => {
-          setShowNotification(false);
-        }, 3000);
+        setTimeout(() => setShowNotification(false), 3000);
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div id="contact" className="bg-[#141414] font-light w-full max-w-full px-[clamp(1rem,6vw,6rem)] mx-auto min-h-screen flex flex-col items-center justify-center text-white text-center">
-      <h2 className="text-[clamp(2rem,5vw,3.5rem)] mb-6">
-        Let's make something {''} <span className="italic font-bold font-serif hover:text-[#963267]">great</span> together.
-      </h2>
-      <p className="text-lg mb-2">zeespanto@gmail.com</p>
-      <a
-        href="/ZelanErozEspantoResume.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-1 mb-10 underline text-lg hover:text-[#963267] transition-all"
-      >
-        Resume
-      </a>
+    <div
+      id="contact"
+      className="relative bg-[#0038de] w-full min-h-screen flex flex-col items-center justify-center px-[clamp(1rem,6vw,6rem)] py-24 overflow-hidden"
+    >
+      {/* Subtle grid texture — matches site's layered depth */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff5f2 1px, transparent 1px), linear-gradient(90deg, #fff5f2 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-      {/* Notification */}
-      {showNotification && (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-[#963267] text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in z-50">
-          sent. thanks for dropping by!
-        </div>
-      )}
+      {/* Toast notification */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="fixed top-8 left-1/2 -translate-x-1/2 z-50 bg-[#c6ff57] text-[#0038de] font-extrabold tracking-wide px-6 py-3 shadow-[0_4px_24px_rgba(0,0,0,0.18)]"
+          >
+            sent. thanks for dropping by!
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 max-w-md"
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-lg text-center"
       >
-        <label className="flex flex-col text-sm">
+        {/* Heading */}
+        <h2 className="text-[#fff5f2] font-extrabold tracking-tight leading-[0.95] text-[clamp(2.4rem,6vw,4rem)] mb-6">
+          Let's make something{" "}
+          <motion.span
+            className="italic text-[#c6ff57] inline-block"
+            whileHover={{ y: -3 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            great
+          </motion.span>{" "}
+          together.
+        </h2>
+
+        {/* Email + Resume */}
+        <p className="text-[#fff5f2]/80 text-base sm:text-lg mb-1 tracking-wide">
+          zeespanto@gmail.com
+        </p>
+        <a
+          href="/ZelanErozEspantoResume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative inline-block text-[#fff5f2]/80 text-base sm:text-lg mb-12 tracking-wide hover:text-[#ffed00] transition-colors duration-200"
+        >
+          Resume
+          <span className="pointer-events-none absolute -bottom-[2px] left-0 h-[1.5px] w-full origin-left scale-x-0 bg-[#ffed00] transition-transform duration-200 ease-out group-hover:scale-x-100" />
+        </a>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
           <input
             type="text"
             name="name"
             required
-            className="px-3 py-2 border border-gray-300 rounded-md text-white"
             placeholder="name"
+            className="
+              w-full bg-transparent border-b border-[#fff5f2]/30
+              px-0 py-3 text-[#fff5f2] placeholder-[#fff5f2]/35
+              text-base tracking-wide
+              focus:outline-none focus:border-[#c6ff57]
+              transition-colors duration-200
+            "
           />
-        </label>
-        <label className="flex flex-col text-sm">
           <input
             type="email"
             name="email"
             placeholder="email (if you want a reply)"
-            className="px-3 py-2 border border-gray-300 rounded-md text-white"
+            className="
+              w-full bg-transparent border-b border-[#fff5f2]/30
+              px-0 py-3 text-[#fff5f2] placeholder-[#fff5f2]/35
+              text-base tracking-wide
+              focus:outline-none focus:border-[#ffb5d0]
+              transition-colors duration-200
+            "
           />
-        </label>
-        <label className="flex flex-col text-sm">
           <textarea
             name="message"
             required
             rows={4}
             placeholder="message"
-            className="px-3 py-2 border border-gray-300 rounded-md text-white"
+            className="
+              w-full bg-transparent border-b border-[#fff5f2]/30
+              px-0 py-3 text-[#fff5f2] placeholder-[#fff5f2]/35
+              text-base tracking-wide resize-none
+              focus:outline-none focus:border-[#ffed00]
+              transition-colors duration-200
+            "
           />
-        </label>
-        <button 
-          type="submit"
-          disabled={isSubmitting}
-          className="px-4 py-2 rounded-xl border border-white text-black bg-white hover:bg-[#963267] hover:text-white transition duration-200 disabled:opacity-50"
-        >
-          {isSubmitting ? 'sending...' : 'send'}
-        </button>
-      </form>
+
+          <motion.button
+            type="submit"
+            disabled={isSubmitting}
+            whileHover={{ backgroundColor: "#c6ff57", color: "#0038de" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.15 }}
+            className="
+              mt-2 w-full py-3
+              border border-[#fff5f2]/60
+              bg-transparent text-[#fff5f2]
+              font-extrabold tracking-widest text-sm uppercase
+              disabled:opacity-40 disabled:cursor-not-allowed
+              transition-colors duration-150
+            "
+          >
+            {isSubmitting ? "sending…" : "send"}
+          </motion.button>
+        </form>
+      </motion.div>
     </div>
   );
 }

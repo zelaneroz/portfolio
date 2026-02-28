@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zelan Eroz Espanto",
+  title: "Zelan",
   description: "Zelan Eroz Espanto's Portoflio",
 };
 
