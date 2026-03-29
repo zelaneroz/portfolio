@@ -82,7 +82,7 @@ export default function SiteLayout() {
   const navItems: NavItem[] = useMemo(
     () => [
       { label: "WORK", href: "#work", accent: "green" },
-      { label: "PROJECTS", href: "#project", accent: "white" },
+      { label: "PROJECTS", href: "#projects", accent: "white" },
       { label: "CONTACT", href: "#contact", accent: "yellow" },
       { label: "THOUGHTS", href: "/thoughts", accent: "pink" },
     ],
