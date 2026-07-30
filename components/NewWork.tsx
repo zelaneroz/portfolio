@@ -1,200 +1,476 @@
 "use client";
-import { useMemo, useState } from "react";
+
+import { useState } from "react";
 import Image from "next/image";
-import menu from "../app/menu.svg"
+import menu from "../app/menu.svg";
 
-type Tab = "computing" | "ev";
+import {
+  experiences,
+  type ExperienceCategory,
+  type ExperienceItem,
+} from "../data/experience";
 
-type WorkItem = {
-  id: string;
-  org: string;
-  role: string;
-  date: string;
+type Accent = "lime" | "pink" | "blue";
+
+type ExperienceCardProps = {
+  item: ExperienceItem;
+  accent: Accent;
 };
 
-export default function NewWork() {
-  const [activeTab, setActiveTab] = useState<Tab>("computing");
+type EducationItem = {
+  institution: string;
+  startDate: string;
+  endDate: string;
+  program: string;
+  location: string;
+  description: string;
+  logo?: string;
+  initials?: string;
+};
 
-  const computingItems: WorkItem[] = useMemo(
-  () => [
-    { id: "algoverse", org: "ALGOVERSE", role: "Independent Researcher", date: "FEB ‘26 -" },
-    { id: "kpmg", org: "KPMG", role: "AI Fellow", date: "AUG ‘25 to DEC ‘25" },
-    { id: "biswas", org: "Biswas Lab", role: "Research Assistant (IPV Detection - LLMs)", date: "AUG ‘25 to DEC ‘25" },
-    { id: "cwru-ta", org: "Department of Computer Science at CWRU", role: "Teaching Assistant (Intro to Data Structures)", date: "JAN ‘25 to DEC ‘25" },
-  ],
-  []
-);
 
-const evItems: WorkItem[] = useMemo(
-  () => [
-    { id: "other-1", org: "United World College (UWC) Philippinces National Committe", role: "Finance Team Member", date: "AUG ‘25 -" },
-    { id: "other-2", org: "Center for Career Success at CWRU", role: "Career Consulting Intern", date: "NOV ‘24 -" },
-    { id: "other-3", org: "Cleveland Public Market Corporation (West Side Market)", role: "Business Strategy Consulting (xLab)", date: "AUG ‘25 to DEC ‘25" },
-    { id: "other-4", org: "Fowler Center, Weatheheard School of Management", role: "ThinkImpact Fellow (Iceland)", date: "AUG ‘24 to MAY ‘25" },
-  ],
-  []
-);
+const educationItems: EducationItem[] = [
+  {
+    institution: "Case Western Reserve University",
+    startDate: "Aug 2024",
+    endDate: "Present",
+    program: "B.S. in Computer Science, Minor in Mathematics",
+    location: "Cleveland, OH",
+    description:
+      "Studying computer science with a focus on artificial intelligence, machine learning, software engineering, and applied mathematics.",
+    logo: "/logos/cwru.jpeg",
+    initials: "C",
+  },
+  {
+    institution: "Nanyang Technological University",
+    startDate: "Jan 2026",
+    endDate: "May 2026",
+    program: "Exchange Program, College of Computing and Data Science",
+    location: "Singapore",
+    description:
+      "Completed coursework in intelligent agents, machine learning, pattern recognition and deep learning, software engineering, and database systems.",
+    logo: "/logos/ntu.png",
+    initials: "NTU",
+  },
+  {
+    institution: "UWC ISAK Japan",
+    startDate: "Aug 2022",
+    endDate: "May 2024",
+    program: "International Baccalaureate Diploma",
+    location: "Karuizawa, Japan",
+    description:
+      "Attended an international boarding school on a full scholarship, learning alongside students from diverse cultures and backgrounds.",
+    logo: "/logos/uwcij.webp",
+    initials: "U",
+  },
+  {
+    institution: "Philippine Science High School - Caraga Region Campus",
+    startDate: "Aug 2017",
+    endDate: "June 2022",
+    program: "Physics Core",
+    location: "Butuan City, Philippines",
+    description:
+      "Attended an international boarding school on a full scholarship, learning alongside students from diverse cultures and backgrounds.",
+    logo: "/logos/pshscrc.jpeg",
+    initials: "U",
+  },
+];
 
-  const items = activeTab === "computing" ? computingItems : evItems;
+const accentStyles: Record<
+  Accent,
+  {
+    border: string;
+    logo: string;
+    tag: string;
+  }
+> = {
+  lime: {
+    border: "group-hover:border-[#c6ff57]",
+    logo: "bg-[#c6ff57]",
+    tag: "bg-[#efffcf]",
+  },
+  pink: {
+    border: "group-hover:border-[#ffb5d0]",
+    logo: "bg-[#ffb5d0]",
+    tag: "bg-[#ffe7f0]",
+  },
+  blue: {
+    border: "group-hover:border-[#0038de]",
+    logo: "bg-[#dce5ff]",
+    tag: "bg-[#e8edff]",
+  },
+};
 
-  // Color system
-  const blockBg =
-    activeTab === "computing" ? "bg-[#c6ff57]" : "bg-[#ffb5d0]";
-  const hoverComputing = "hover:text-[#c6ff57]";
-  const hoverEV = "hover:text-[#ffb5d0]";
+const navLinks = [
+  { label: "HOME", href: "#home" },
+  { label: "PROJECTS", href: "#projects" },
+  { label: "CONTACT", href: "#contact" },
+  { label: "THOUGHTS", href: "#thoughts" },
+];
 
-  const [menuOpen, setMenuOpen] = useState(false);
+function formatExperienceDate(item: ExperienceItem): string {
+  if (!item.endDate) {
+    return item.startDate;
+  }
 
-const navLinks = useMemo(
-  () => [
-    { label: "HOME", href: "#home" },
-    { label: "PROJECTS", href: "#projects" },
-    { label: "CONTACT", href: "#contact" },
-    { label: "THOUGHTS", href: "#thoughts" },
-  ],
-  []
-);
+  return `${item.startDate} – ${item.endDate}`;
+}
+
+function getVisibleExperiences(
+  category: ExperienceCategory
+): ExperienceItem[] {
+  return experiences
+    .filter(
+      (experience) =>
+        experience.category === category &&
+        experience.show
+    )
+    .sort(
+      (firstExperience, secondExperience) =>
+        (firstExperience.order ?? 999) -
+        (secondExperience.order ?? 999)
+    );
+}
+
+function ExperienceCard({
+  item,
+  accent,
+}: ExperienceCardProps) {
+  const styles = accentStyles[accent];
 
   return (
-    <section id="work" className="relative h-screen w-full bg-white text-black overflow-hidden">
-  <div className="mx-auto grid h-full w-full max-w-6xl grid-rows-[auto_1fr_auto] px-6 py-6 md:px-10 md:py-8">
-        {/* Top row */}
-        <div className="flex items-start justify-between gap-6">
-          <div>
-            <h1 className="text-[clamp(36px,5vw,72px)] leading-[0.95] font-extrabold tracking-tight md:text-[72px]">
-              EXPERIENCE
-            </h1>
-            {/* Category line */}
-            <div className="mt-3 text-[18px] md:text-[20px] font-semibold flex items-center gap-2">
-            
-            {/* Computing */}
-            <button
-                type="button"
-                onClick={() => setActiveTab("computing")}
-                className="relative px-4 py-1 text-black overflow-hidden group"
-            >
-                {/* highlight layer */}
-                <span
-                className={[
-                    "absolute inset-0 origin-left transition-transform duration-300 ease-out",
-                    activeTab === "computing"
-                    ? "scale-x-100 bg-[#c6ff57]"
-                    : "scale-x-0 bg-[#c6ff57] group-hover:scale-x-100",
-                ].join(" ")}
-                />
-                <span className="relative z-10">Computing</span>
-            </button>
+    <article
+      className={[
+        "group border-b border-black/10 py-8",
+        "transition-colors duration-200",
+        styles.border,
+      ].join(" ")}
+    >
+      <div className="flex items-start gap-4">
+        {/* Logo */}
+        <div
+          className={[
+            "relative flex h-10 w-10 shrink-0 items-center justify-center",
+            "overflow-hidden rounded-md font-extrabold",
+            styles.logo,
+          ].join(" ")}
+        >
+          {item.logo ? (
+            <Image
+              src={item.logo}
+              alt={`${item.org} logo`}
+              fill
+              sizes="40px"
+              className="object-contain p-1.5"
+            />
+          ) : (
+            <span className="text-sm">
+              {item.initials ?? item.org.charAt(0)}
+            </span>
+          )}
+        </div>
 
-            <span className="mx-1 text-black">·</span>
+        {/* Information */}
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <h3 className="text-[20px] font-extrabold leading-tight">
+              {item.org}
+            </h3>
 
-            {/* Other */}
-            <button
-                type="button"
-                onClick={() => setActiveTab("ev")}
-                className="relative px-4 py-1 text-black overflow-hidden group"
-            >
-                <span
-                className={[
-                    "absolute inset-0 origin-left transition-transform duration-300 ease-out",
-                    activeTab === "ev"
-                    ? "scale-x-100 bg-[#ffb5d0]"
-                    : "scale-x-0 bg-[#ffb5d0] group-hover:scale-x-100",
-                ].join(" ")}
-                />
-                <span className="relative z-10">Other</span>
-            </button>
-            </div>
+            <span className="shrink-0 text-[15px] font-medium text-[#6d7586] sm:text-right">
+              {formatExperienceDate(item)}
+            </span>
           </div>
 
-          {/* Menu icon */}
-        <div
-        className="relative mt-2"
-        onMouseEnter={() => setMenuOpen(true)}
-        onMouseLeave={() => setMenuOpen(false)}
-        >
-        <button
-            type="button"
-            aria-label="Open menu"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="rounded-sm p-2 transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-black/40"
-        >
-            <Image src={menu} alt="Menu" width={34} height={34} priority />
-        </button>
+          <p className="mt-1 text-[17px] leading-snug text-[#596274]">
+            {item.role}
 
-        {/* Hover bridge: prevents the "dead zone" gap */}
-        <div className="absolute right-0 top-full h-4 w-64" aria-hidden="true" />
+            {item.location && (
+              <>
+                <span aria-hidden="true"> · </span>
+                {item.location}
+              </>
+            )}
+          </p>
 
-        {/* Dropdown */}
-        <div
-            className={[
-            "absolute right-0 top-full mt-3 w-56 bg-[#0038de] px-6 py-6",
-            "shadow-[0_12px_40px_rgba(0,0,0,0.18)]",
-            "transition-all duration-200 ease-out origin-top-right",
-            menuOpen
-                ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
-                : "opacity-0 -translate-y-1 scale-[0.98] pointer-events-none",
-            ].join(" ")}
-        >
-            <nav className="flex flex-col gap-5">
-            {navLinks.map((l) => (
-                <a
-                key={l.label}
-                href={l.href}
-                className="text-white font-extrabold tracking-wide text-[26px] leading-none hover:text-[#c6ff57]"
-                onClick={() => setMenuOpen(false)}
+          <p className="mt-3 max-w-[62ch] text-[14px] leading-6 text-[#8a909c] md:text-[15px]">
+            {item.description}
+          </p>
+
+          {item.tags && item.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className={[
+                    "rounded px-2.5 py-1 text-[13px] font-semibold",
+                    "text-[#303746]",
+                    styles.tag,
+                  ].join(" ")}
                 >
-                {l.label}
-                </a>
-            ))}
-            </nav>
-        </div>
-        </div>
-
-        </div>
-
-        {/* List */}
-        <div className="mt-5 max-h-[68vh] md:max-h-[64vh] min-h-0">
-        <div className="grid h-full min-h-0 grid-rows-4 gap-4 md:gap-5">
-            {items.map((it) => (
-            <div
-                key={it.id}
-                className={[
-                blockBg,
-                "w-full h-full overflow-hidden", // critical: stable size, no spill
-                "px-6 py-4 md:px-8 md:py-5",
-                ].join(" ")}
-            >
-                <div className="flex h-full min-h-0 flex-col md:flex-row md:items-start md:justify-between">
-                {/* Left */}
-                <div className="min-w-0 min-h-0">
-                    <div className="text-[clamp(16px,1.8vw,22px)] font-extrabold leading-tight">
-                    {it.org}
-                    </div>
-
-                    {/* Role: clamp so it can't expand the card */}
-                    <div className="mt-1 text-[clamp(14px,1.6vw,18px)] leading-snug 
-                      md:truncate 
-                      max-md:[display:-webkit-box] 
-                      max-md:[-webkit-line-clamp:2] 
-                      max-md:[-webkit-box-orient:vertical] 
-                      overflow-hidden">
-                      {it.role}
-                    </div>
-                </div>
-
-                {/* Right date */}
-                <div className="mt-2 shrink-0 text-[clamp(14px,1.6vw,18px)] leading-snug md:mt-0 md:text-right">
-                    {it.date}
-                </div>
-                </div>
+                  {tag}
+                </span>
+              ))}
             </div>
-            ))}
+          )}
         </div>
+      </div>
+    </article>
+  );
+}
+
+function EducationCard({ item }: { item: EducationItem }) {
+  return (
+    <article className="group border-b border-black/15 py-6 transition-colors duration-200 hover:border-[#ffb5d0]">
+      <div className="flex items-start gap-4">
+        {/* Logo */}
+        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden font-extrabold">
+          {item.logo ? (
+            <Image
+              src={item.logo}
+              alt={`${item.institution} logo`}
+              fill
+              sizes="40px"
+              className="object-contain p-1.5"
+            />
+          ) : (
+            <span className="text-xs">
+              {item.initials ?? item.institution.charAt(0)}
+            </span>
+          )}
         </div>
 
-        {/* Bottom breathing space */}
-        <div className="h-10 md:h-12" />
+        <div className="min-w-0 flex-1">
+          {/* Institution and dates */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <h3 className="text-[20px] font-extrabold leading-tight">
+              {item.institution}
+            </h3>
+
+            <span className="shrink-0 text-[15px] font-medium text-[#6d7586] sm:text-right">
+              {item.startDate} – {item.endDate}
+            </span>
+          </div>
+
+          {/* Program and location */}
+          <p className="mt-1 text-[17px] leading-snug text-[#596274]">
+            {item.program}
+            <span aria-hidden="true"> · </span>
+            {item.location}
+          </p>
+
+          {/* Description */}
+          <p className="mt-3 max-w-[62ch] text-[14px] leading-6 text-[#8a909c] md:text-[15px]">
+            {item.description}
+          </p>
         </div>
+      </div>
+    </article>
+  );
+}
+
+export default function NewWork() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const technicalItems =
+    getVisibleExperiences("technical");
+
+  const researchItems =
+    getVisibleExperiences("research");
+
+  const communityItems =
+    getVisibleExperiences("community");
+
+  return (
+    <section
+      id="work"
+      className="relative w-full bg-white text-black"
+    >
+      <div className="mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-28 lg:px-12">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-8">
+          <div>
+            <h1 className="text-[clamp(42px,6vw,78px)] font-extrabold leading-[0.95] tracking-tight">
+              EXPERIENCE
+            </h1>
+
+            <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#8a909c] md:text-[16px]">
+              Building intelligent systems, studying how they
+              behave, and creating communities where more people
+              can participate.
+            </p>
+          </div>
+
+          {/* Navigation menu */}
+          <div
+            className="relative mt-2"
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={() => setMenuOpen(false)}
+          >
+            <button
+              type="button"
+              aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
+              onClick={() =>
+                setMenuOpen((currentValue) => !currentValue)
+              }
+              className="rounded-sm p-2 transition-opacity hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-black/40"
+            >
+              <Image
+                src={menu}
+                alt=""
+                width={34}
+                height={34}
+                priority
+              />
+            </button>
+
+            <div
+              className="absolute right-0 top-full h-4 w-64"
+              aria-hidden="true"
+            />
+
+            <div
+              className={[
+                "absolute right-0 top-full z-20 mt-3 w-56",
+                "bg-[#0038de] px-6 py-6",
+                "shadow-[0_12px_40px_rgba(0,0,0,0.18)]",
+                "origin-top-right transition-all duration-200",
+                menuOpen
+                  ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+                  : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0",
+              ].join(" ")}
+            >
+              <nav className="flex flex-col gap-5">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="text-[26px] font-extrabold leading-none tracking-wide text-white hover:text-[#c6ff57]"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        {/* Technical Experience */}
+        <section
+          aria-labelledby="technical-heading"
+          className="mt-20"
+        >
+          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
+            <span
+              className="h-4 w-4 bg-[#c6ff57]"
+              aria-hidden="true"
+            />
+
+            <h2
+              id="technical-heading"
+              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
+            >
+              Technical Experience
+            </h2>
+          </div>
+
+          <div className="grid gap-x-16 lg:grid-cols-2">
+            {technicalItems.map((item) => (
+              <ExperienceCard
+                key={item.id}
+                item={item}
+                accent="lime"
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Research */}
+        <section
+          aria-labelledby="research-heading"
+          className="mt-24"
+        >
+          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
+            <span
+              className="h-4 w-4 bg-[#0038de]"
+              aria-hidden="true"
+            />
+
+            <h2
+              id="research-heading"
+              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
+            >
+              Research
+            </h2>
+          </div>
+
+          <div className="grid gap-x-16 lg:grid-cols-2">
+            {researchItems.map((item) => (
+              <ExperienceCard
+                key={item.id}
+                item={item}
+                accent="blue"
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Education */}
+        <section
+          aria-labelledby="education-heading"
+          className="mt-24"
+        >
+          <div className="border-b-2 border-black pb-4">
+            <h2
+              id="education-heading"
+              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
+            >
+              Education
+            </h2>
+          </div>
+
+          <div className="grid gap-x-16 lg:grid-cols-2">
+            {educationItems.map((item) => (
+              <EducationCard
+                key={`${item.institution}-${item.program}`}
+                item={item}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Community & Leadership */}
+        <section
+          aria-labelledby="community-heading"
+          className="mt-24"
+        >
+          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
+            <span
+              className="h-4 w-4 bg-[#ffb5d0]"
+              aria-hidden="true"
+            />
+
+            <h2
+              id="community-heading"
+              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
+            >
+              Community &amp; Leadership
+            </h2>
+          </div>
+
+          <div className="grid gap-x-16 lg:grid-cols-2">
+            {communityItems.map((item) => (
+              <ExperienceCard
+                key={item.id}
+                item={item}
+                accent="pink"
+              />
+            ))}
+          </div>
+        </section>
+      </div>
     </section>
   );
 }

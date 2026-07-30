@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158.055 113.431">
+  <defs>
+    <style>.cls-1{fill:none;stroke:url(#linear-gradient);stroke-linejoin:round;stroke-width:4px;}.cls-2{fill:#f5eff9;stroke-width:0px;}</style>
+    <linearGradient id="linear-gradient" x1="78.46" y1="0" x2="78.46" y2="109.36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f23dff"/>
+      <stop offset="1" stop-color="#9c45ff"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_1-2">
+    <polyline class="cls-1" points="114.78 2 78.46 107.36 41.8 2.12 40.23 107.36 114.78 2 2 107.36 41.8 2 154.92 107.36 114.78 2 116.69 107.36 41.8 2"/>
+  </g>
+</svg>

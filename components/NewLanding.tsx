@@ -248,13 +248,13 @@ export default function SiteLayout() {
                     get the spring-lift so the whole paragraph feels unified.
                   */}
                   <p className="leading-[1.3] text-justify">
-                    <AnimatedText text="Welcome to my corner of the internet. Mainly a work portfolio, partially a love letter. Currently focused on" />
+                    <AnimatedText text="Welcome to my corner of the internet. Mainly a work portfolio, partially a love letter. Currently working on and learning about" />
                     <motion.span
                       className="font-bold text-[#c6ff57] inline-block"
                       whileHover={{ y: -2 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     >
-                      AI/ML (LLM Research)
+                      LLM Research & Applications
                     </motion.span>
                     {", "}
                     <motion.span
@@ -262,7 +262,7 @@ export default function SiteLayout() {
                       whileHover={{ y: -2 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     >
-                      full-stack dev
+                      Full Stack Development for Cloud Platforms
                     </motion.span>
                     {", and "}
                     <motion.span
@@ -270,10 +270,10 @@ export default function SiteLayout() {
                       whileHover={{ y: -2 }}
                       transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     >
-                      making sense of data
+                      databases
                     </motion.span>
                     {". "}
-                    <AnimatedText text="Outside the codebase, I have a strong desire to live life and experience the world to the fullest through travel, visual art, food, and meaningful conversations." />
+                    <AnimatedText text="Outside the codebase, I love experiencing new cultures, creating and appreciating visual art, and meaningful conversations (especially with cab drivers)." />
                   </p>
                 </div>
               </motion.div>
