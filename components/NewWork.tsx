@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import menu from "../app/menu.svg";
 
@@ -11,70 +11,12 @@ import {
 } from "../data/experience";
 
 type Accent = "lime" | "pink" | "blue";
+type PanelId = "technical" | "research" | "community" | null;
 
 type ExperienceCardProps = {
   item: ExperienceItem;
   accent: Accent;
 };
-
-type EducationItem = {
-  institution: string;
-  startDate: string;
-  endDate: string;
-  program: string;
-  location: string;
-  description: string;
-  logo?: string;
-  initials?: string;
-};
-
-
-const educationItems: EducationItem[] = [
-  {
-    institution: "Case Western Reserve University",
-    startDate: "Aug 2024",
-    endDate: "Present",
-    program: "B.S. in Computer Science, Minor in Mathematics",
-    location: "Cleveland, OH",
-    description:
-      "Studying computer science with a focus on artificial intelligence, machine learning, software engineering, and applied mathematics.",
-    logo: "/logos/cwru.jpeg",
-    initials: "C",
-  },
-  {
-    institution: "Nanyang Technological University",
-    startDate: "Jan 2026",
-    endDate: "May 2026",
-    program: "Exchange Program, College of Computing and Data Science",
-    location: "Singapore",
-    description:
-      "Completed coursework in intelligent agents, machine learning, pattern recognition and deep learning, software engineering, and database systems.",
-    logo: "/logos/ntu.png",
-    initials: "NTU",
-  },
-  {
-    institution: "UWC ISAK Japan",
-    startDate: "Aug 2022",
-    endDate: "May 2024",
-    program: "International Baccalaureate Diploma",
-    location: "Karuizawa, Japan",
-    description:
-      "Attended an international boarding school on a full scholarship, learning alongside students from diverse cultures and backgrounds.",
-    logo: "/logos/uwcij.webp",
-    initials: "U",
-  },
-  {
-    institution: "Philippine Science High School - Caraga Region Campus",
-    startDate: "Aug 2017",
-    endDate: "June 2022",
-    program: "Physics Core",
-    location: "Butuan City, Philippines",
-    description:
-      "Attended an international boarding school on a full scholarship, learning alongside students from diverse cultures and backgrounds.",
-    logo: "/logos/pshscrc.jpeg",
-    initials: "U",
-  },
-];
 
 const accentStyles: Record<
   Accent,
@@ -82,22 +24,34 @@ const accentStyles: Record<
     border: string;
     logo: string;
     tag: string;
+    dot: string;
+    text: string;
+    glow: string;
   }
 > = {
   lime: {
-    border: "group-hover:border-[#c6ff57]",
+    border: "group-hover/card:border-[#c6ff57]",
     logo: "bg-[#c6ff57]",
     tag: "bg-[#efffcf]",
+    dot: "bg-[#c6ff57]",
+    text: "text-[#8cc900]",
+    glow: "hover:shadow-[0_18px_70px_rgba(198,255,87,0.22)]",
   },
   pink: {
-    border: "group-hover:border-[#ffb5d0]",
+    border: "group-hover/card:border-[#ffb5d0]",
     logo: "bg-[#ffb5d0]",
     tag: "bg-[#ffe7f0]",
+    dot: "bg-[#ffb5d0]",
+    text: "text-[#d655c2]",
+    glow: "hover:shadow-[0_18px_70px_rgba(214,85,194,0.18)]",
   },
   blue: {
-    border: "group-hover:border-[#0038de]",
+    border: "group-hover/card:border-[#0038de]",
     logo: "bg-[#dce5ff]",
     tag: "bg-[#e8edff]",
+    dot: "bg-[#0038de]",
+    text: "text-[#0038de]",
+    glow: "hover:shadow-[0_18px_70px_rgba(0,56,222,0.16)]",
   },
 };
 
@@ -122,8 +76,7 @@ function getVisibleExperiences(
   return experiences
     .filter(
       (experience) =>
-        experience.category === category &&
-        experience.show
+        experience.category === category && experience.show
     )
     .sort(
       (firstExperience, secondExperience) =>
@@ -132,26 +85,123 @@ function getVisibleExperiences(
     );
 }
 
-function ExperienceCard({
-  item,
+function ExperiencePanel({
+  id,
+  title,
   accent,
-}: ExperienceCardProps) {
+  activePanel,
+  setActivePanel,
+  children,
+}: {
+  id: Exclude<PanelId, null>;
+  title: string;
+  accent: Accent;
+  activePanel: PanelId;
+  setActivePanel: (id: PanelId) => void;
+  children: ReactNode;
+}) {
+  const isActive = activePanel === id;
+  const styles = accentStyles[accent];
+
+  return (
+    <section
+      onMouseEnter={() => setActivePanel(id)}
+      onMouseLeave={() => setActivePanel(null)}
+      className={[
+        "group/panel overflow-hidden border-b border-black/15",
+        "transition-all duration-500 ease-out",
+        isActive ? "py-8" : "py-5",
+      ].join(" ")}
+    >
+      <button
+        type="button"
+        onClick={() => setActivePanel(isActive ? null : id)}
+        onFocus={() => setActivePanel(id)}
+        className="flex w-full items-center justify-between gap-6 text-left"
+        aria-expanded={isActive}
+      >
+        <div className="flex items-center gap-4">
+          <span
+            className={[
+              "h-3 w-3 shrink-0 rounded-full transition-transform duration-500",
+              styles.dot,
+              isActive ? "scale-125" : "scale-100",
+            ].join(" ")}
+            aria-hidden="true"
+          />
+
+          <h2
+            className={[
+              "font-normal italic leading-[0.85] tracking-[-0.075em]",
+              "text-[clamp(30px,5vw,64px)]",,
+              "transition-all duration-500 ease-out",
+              isActive ? styles.text : "text-black",
+            ].join(" ")}
+            style={{
+              fontFamily: '"Times New Roman", Times, serif',
+            }}
+          >
+            {title}
+          </h2>
+        </div>
+
+        <span
+          className={[
+            "shrink-0 text-[24px] leading-none transition-transform duration-500",
+            isActive ? "rotate-45 opacity-100" : "rotate-0 opacity-40",
+          ].join(" ")}
+        >
+          +
+        </span>
+      </button>
+
+      <div
+        className={[
+          "grid transition-[grid-template-rows] duration-700 ease-out",
+          isActive ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        ].join(" ")}
+      >
+        <div className="overflow-hidden">
+          <div
+            className={[
+              "pt-6 transition-all duration-700 ease-out",
+              isActive
+                ? "translate-y-0 opacity-100"
+                : "-translate-y-3 opacity-0",
+            ].join(" ")}
+          >
+            <div
+              className={[
+                "rounded-2xl border border-black/10 bg-white/80 p-5",
+                "transition-shadow duration-500",
+                styles.glow,
+              ].join(" ")}
+            >
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExperienceCard({ item, accent }: ExperienceCardProps) {
   const styles = accentStyles[accent];
 
   return (
     <article
       className={[
-        "group border-b border-black/10 py-8",
+        "group/card border-b border-black/10 py-4 last:border-b-0",
         "transition-colors duration-200",
         styles.border,
       ].join(" ")}
     >
-      <div className="flex items-start gap-4">
-        {/* Logo */}
+      <div className="flex items-start gap-3">
         <div
           className={[
-            "relative flex h-10 w-10 shrink-0 items-center justify-center",
-            "overflow-hidden rounded-md font-extrabold",
+            "relative flex h-8 w-8 shrink-0 items-center justify-center",
+            "overflow-hidden rounded-sm font-bold",
             styles.logo,
           ].join(" ")}
         >
@@ -160,29 +210,28 @@ function ExperienceCard({
               src={item.logo}
               alt={`${item.org} logo`}
               fill
-              sizes="40px"
-              className="object-contain p-1.5"
+              sizes="32px"
+              className="object-contain p-1"
             />
           ) : (
-            <span className="text-sm">
+            <span className="text-[10px]">
               {item.initials ?? item.org.charAt(0)}
             </span>
           )}
         </div>
 
-        {/* Information */}
         <div className="min-w-0 flex-1">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-            <h3 className="text-[20px] font-extrabold leading-tight">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <h3 className="text-[15px] font-bold leading-tight text-black">
               {item.org}
             </h3>
 
-            <span className="shrink-0 text-[15px] font-medium text-[#6d7586] sm:text-right">
+            <span className="shrink-0 text-[11px] font-medium leading-tight text-[#6d7586] sm:text-right">
               {formatExperienceDate(item)}
             </span>
           </div>
 
-          <p className="mt-1 text-[17px] leading-snug text-[#596274]">
+          <p className="mt-1 text-[12px] leading-snug text-[#596274]">
             {item.role}
 
             {item.location && (
@@ -193,17 +242,17 @@ function ExperienceCard({
             )}
           </p>
 
-          <p className="mt-3 max-w-[62ch] text-[14px] leading-6 text-[#8a909c] md:text-[15px]">
+          <p className="mt-2 max-w-[90ch] text-[12px] leading-[1.45] text-[#8a909c]">
             {item.description}
           </p>
 
           {item.tags && item.tags.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap gap-1.5">
               {item.tags.map((tag) => (
                 <span
                   key={tag}
                   className={[
-                    "rounded px-2.5 py-1 text-[13px] font-semibold",
+                    "rounded px-2 py-0.5 text-[10px] font-semibold",
                     "text-[#303746]",
                     styles.tag,
                   ].join(" ")}
@@ -219,91 +268,42 @@ function ExperienceCard({
   );
 }
 
-function EducationCard({ item }: { item: EducationItem }) {
-  return (
-    <article className="group border-b border-black/15 py-6 transition-colors duration-200 hover:border-[#ffb5d0]">
-      <div className="flex items-start gap-4">
-        {/* Logo */}
-        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden font-extrabold">
-          {item.logo ? (
-            <Image
-              src={item.logo}
-              alt={`${item.institution} logo`}
-              fill
-              sizes="40px"
-              className="object-contain p-1.5"
-            />
-          ) : (
-            <span className="text-xs">
-              {item.initials ?? item.institution.charAt(0)}
-            </span>
-          )}
-        </div>
-
-        <div className="min-w-0 flex-1">
-          {/* Institution and dates */}
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-            <h3 className="text-[20px] font-extrabold leading-tight">
-              {item.institution}
-            </h3>
-
-            <span className="shrink-0 text-[15px] font-medium text-[#6d7586] sm:text-right">
-              {item.startDate} – {item.endDate}
-            </span>
-          </div>
-
-          {/* Program and location */}
-          <p className="mt-1 text-[17px] leading-snug text-[#596274]">
-            {item.program}
-            <span aria-hidden="true"> · </span>
-            {item.location}
-          </p>
-
-          {/* Description */}
-          <p className="mt-3 max-w-[62ch] text-[14px] leading-6 text-[#8a909c] md:text-[15px]">
-            {item.description}
-          </p>
-        </div>
-      </div>
-    </article>
-  );
-}
-
 export default function NewWork() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<PanelId>(null);
 
-  const technicalItems =
-    getVisibleExperiences("technical");
-
-  const researchItems =
-    getVisibleExperiences("research");
-
-  const communityItems =
-    getVisibleExperiences("community");
+  const technicalItems = getVisibleExperiences("technical");
+  const researchItems = getVisibleExperiences("research");
+  const communityItems = getVisibleExperiences("community");
 
   return (
     <section
       id="work"
       className="relative w-full bg-white text-black"
+      style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
     >
-      <div className="mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-28 lg:px-12">
+      <div className="mx-auto w-full max-w-6xl px-5 py-16 md:px-8 md:py-20 lg:px-10">
         {/* Header */}
         <div className="flex items-start justify-between gap-8">
           <div>
-            <h1 className="text-[clamp(42px,6vw,78px)] font-extrabold leading-[0.95] tracking-tight">
-              EXPERIENCE
+            <h1
+              className="text-[clamp(54px,9vw,125px)] font-normal italic leading-[0.82] tracking-[-0.075em] text-[#d655c2]"
+              style={{
+                fontFamily: '"Times New Roman", Times, serif',
+              }}
+            >
+              Experience
             </h1>
 
-            <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#8a909c] md:text-[16px]">
-              Building intelligent systems, studying how they
-              behave, and creating communities where more people
-              can participate.
+            <p className="mt-4 max-w-xl text-[13px] leading-[1.55] text-[#8a909c] md:text-[14px]">
+              Building intelligent systems, researching how to make LLMs more aligned,
+              and creating communities where more people can participate.
             </p>
           </div>
 
           {/* Navigation menu */}
           <div
-            className="relative mt-2"
+            className="relative mt-2 shrink-0"
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
           >
@@ -357,26 +357,15 @@ export default function NewWork() {
           </div>
         </div>
 
-        {/* Technical Experience */}
-        <section
-          aria-labelledby="technical-heading"
-          className="mt-20"
-        >
-          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
-            <span
-              className="h-4 w-4 bg-[#c6ff57]"
-              aria-hidden="true"
-            />
-
-            <h2
-              id="technical-heading"
-              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
-            >
-              Technical Experience
-            </h2>
-          </div>
-
-          <div className="grid gap-x-16 lg:grid-cols-2">
+        {/* Stacked hover panels */}
+        <div className="mt-14 border-t border-black/15">
+          <ExperiencePanel
+            id="technical"
+            title="Technical"
+            accent="lime"
+            activePanel={activePanel}
+            setActivePanel={setActivePanel}
+          >
             {technicalItems.map((item) => (
               <ExperienceCard
                 key={item.id}
@@ -384,29 +373,15 @@ export default function NewWork() {
                 accent="lime"
               />
             ))}
-          </div>
-        </section>
+          </ExperiencePanel>
 
-        {/* Research */}
-        <section
-          aria-labelledby="research-heading"
-          className="mt-24"
-        >
-          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
-            <span
-              className="h-4 w-4 bg-[#0038de]"
-              aria-hidden="true"
-            />
-
-            <h2
-              id="research-heading"
-              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
-            >
-              Research
-            </h2>
-          </div>
-
-          <div className="grid gap-x-16 lg:grid-cols-2">
+          <ExperiencePanel
+            id="research"
+            title="Research"
+            accent="blue"
+            activePanel={activePanel}
+            setActivePanel={setActivePanel}
+          >
             {researchItems.map((item) => (
               <ExperienceCard
                 key={item.id}
@@ -414,53 +389,15 @@ export default function NewWork() {
                 accent="blue"
               />
             ))}
-          </div>
-        </section>
+          </ExperiencePanel>
 
-        {/* Education */}
-        <section
-          aria-labelledby="education-heading"
-          className="mt-24"
-        >
-          <div className="border-b-2 border-black pb-4">
-            <h2
-              id="education-heading"
-              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
-            >
-              Education
-            </h2>
-          </div>
-
-          <div className="grid gap-x-16 lg:grid-cols-2">
-            {educationItems.map((item) => (
-              <EducationCard
-                key={`${item.institution}-${item.program}`}
-                item={item}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Community & Leadership */}
-        <section
-          aria-labelledby="community-heading"
-          className="mt-24"
-        >
-          <div className="flex items-center gap-3 border-b-2 border-black pb-4">
-            <span
-              className="h-4 w-4 bg-[#ffb5d0]"
-              aria-hidden="true"
-            />
-
-            <h2
-              id="community-heading"
-              className="text-[14px] font-extrabold uppercase tracking-[0.18em] text-[#596170]"
-            >
-              Community &amp; Leadership
-            </h2>
-          </div>
-
-          <div className="grid gap-x-16 lg:grid-cols-2">
+          <ExperiencePanel
+            id="community"
+            title="Community & Leadership"
+            accent="pink"
+            activePanel={activePanel}
+            setActivePanel={setActivePanel}
+          >
             {communityItems.map((item) => (
               <ExperienceCard
                 key={item.id}
@@ -468,8 +405,8 @@ export default function NewWork() {
                 accent="pink"
               />
             ))}
-          </div>
-        </section>
+          </ExperiencePanel>
+        </div>
       </div>
     </section>
   );
