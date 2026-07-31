@@ -21,19 +21,22 @@ export function FieldNotes() {
         }}
       />
 
-      <div className="relative z-10">
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="font-extrabold tracking-tight leading-[0.9] text-[#0038de] text-[clamp(3rem,8vw,5.625rem)]"
-        >
-          FIELD
-          <br />
-          NOTES
-        </motion.h2>
+     <div className="relative z-10">
+      {/* Heading */}
+      <motion.h2
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="text-[clamp(3rem,8vw,5.625rem)] font-black italic leading-[0.82] tracking-[-0.075em] text-[#0038de]"
+        style={{
+          fontFamily: '"Times New Roman", Times, serif',
+        }}
+      >
+        Postcards
+        {/* <br />
+        Notes */}
+      </motion.h2>
 
         {/* Subline */}
         <motion.p
@@ -43,20 +46,8 @@ export function FieldNotes() {
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
           className="mt-4 text-base sm:text-lg font-light text-[#0038de]/70 max-w-xl"
         >
-          Some treasured moments — algorithm randomly picks 5 photos each time. 
+          Some treasured moments. 5 photos randomly picked each time.
           Words, favorites, stories, and more on {" "}
-          <a
-            href="/thoughts"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative inline-block font-extrabold text-[#0038de] hover:text-[#c6ff57] transition-colors duration-200"
-            style={{ WebkitTextStroke: "0px" }}
-          >
-            Thoughts
-            {/* animated underline — same pattern as nav links */}
-            <span className="pointer-events-none absolute -bottom-[2px] left-0 h-[1.5px] w-full origin-left scale-x-0 bg-[#0038de] transition-transform duration-200 ease-out group-hover:scale-x-100 group-hover:bg-[#c6ff57]" />
-          </a>
-          .
         </motion.p>
 
         {/* Draggable card stage */}

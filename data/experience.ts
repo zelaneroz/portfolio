@@ -80,7 +80,7 @@ export const experiences: ExperienceItem[] = [
     description:
       "ML+Data pipelines for estimating energy demand and routing tasks toward more efficient models.",
     tags: ["PyTorch", "NLP","HuggingFace"],
-    logo: "/logos/kpmg.png",
+    logo: "/logos/kpmg.webp",
     initials: "K",
     category: "technical",
     show: true,

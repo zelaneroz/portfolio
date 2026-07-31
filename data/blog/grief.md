@@ -3,11 +3,9 @@ title: "What I Inherited from the Dead"
 date: "2026-07-14"
 type: "essay"
 tags: ["Grief", "Grandparents"]
-excerpt: "Values, fears, gestures, recipes, stories, and unfinished dreams passed down."
+excerpt: "Lessons from grief."
 published: true
 ---
-
-# What I Inherited from the Dead
 
 Friends I have accumulated from the five countries I have lived in know different versions of me. Some know me as the girl who moved between airports and dorm rooms, who became good at introducing herself over and over again. Some know me as ambitious, busy, always trying to become someone. But the people who knew me when I was growing up in Dinagat Islands know a version of me that came before all of that. They know I was raised, in many ways, by my grandparents: my Nanay Sayong and my Tatay Pablo.
 

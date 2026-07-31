@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+
 import { AtSignIcon } from "./icons/at-sign-icon";
 import { GithubIcon } from "./icons/github-icon";
 import { LinkedinIcon } from "./icons/linkedin-icon";
@@ -92,7 +93,7 @@ export default function About() {
         I’m motivated by the challenge of becoming a more{" "}
         <strong>thoughtful</strong> and{" "}
         <strong>capable engineer</strong> every day. I believe
-        that as tech grows, so should its accessbility and
+        that as tech grows, so should its accessibility and
         responsibility.
       </p>
 
@@ -106,7 +107,7 @@ export default function About() {
       <p>
         See what goes on in my brain{" "}
         <Link
-          href="#brain"
+          href="/brain"
           className="underline decoration-1 underline-offset-2 transition-opacity hover:opacity-60"
         >
           here

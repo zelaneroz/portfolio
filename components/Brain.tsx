@@ -3,11 +3,15 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { SquareArrowLeftIcon } from "./icons/square-arrow-left";
 
 import { favTrinkets, type FavTrinket } from "../data/favs";
 import { brainPostTypes } from "../data/blog-config";
 import type { BrainPost } from "../lib/brain-posts";
+const FieldNotes = dynamic(() =>
+  import("../components/FieldNotes").then((mod) => ({ default: mod.FieldNotes }))
+);
 
 export default function Brain({ posts = [] }: { posts?: BrainPost[] }) {
   const [selected, setSelected] = useState<FavTrinket | null>(null);
@@ -279,6 +283,7 @@ export default function Brain({ posts = [] }: { posts?: BrainPost[] }) {
           </article>
         </div>
       )}
+    < FieldNotes />
     </main>
   );
 }
