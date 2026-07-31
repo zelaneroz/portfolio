@@ -71,31 +71,29 @@ export default function End() {
         className="relative z-10 w-full max-w-lg text-center"
       >
         {/* Heading */}
-        <h2 className="text-[#fff5f2] font-extrabold tracking-tight leading-[0.95] text-[clamp(2.4rem,6vw,4rem)] mb-6">
-          Let's make something{" "}
-          <motion.span
-            className="italic text-[#c6ff57] inline-block"
-            whileHover={{ y: -3 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          >
-            great
-          </motion.span>{" "}
-          together.
-        </h2>
-
-        {/* Email + Resume */}
+<h2
+  className="mb-6 text-[clamp(2.4rem,6vw,4rem)] font-extrabold leading-[0.95] tracking-tight text-[#fff5f2]"
+  style={{
+    fontFamily: "Helvetica, Arial, sans-serif",
+  }}
+>
+  Let&apos;s make something{" "}
+  <motion.span
+    className="inline-block font-normal italic text-[#c6ff57]"
+    style={{
+      fontFamily: '"Times New Roman", Times, serif',
+    }}
+    whileHover={{ y: -3 }}
+    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+  >
+    great
+  </motion.span>{" "}
+  together.
+</h2>
+        {/* Email */}
         <p className="text-[#fff5f2]/80 text-base sm:text-lg mb-1 tracking-wide">
           zeespanto@gmail.com
         </p>
-        <a
-          href="/ZelanErozEspantoResume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative inline-block text-[#fff5f2]/80 text-base sm:text-lg mb-12 tracking-wide hover:text-[#ffed00] transition-colors duration-200"
-        >
-          Resume
-          <span className="pointer-events-none absolute -bottom-[2px] left-0 h-[1.5px] w-full origin-left scale-x-0 bg-[#ffed00] transition-transform duration-200 ease-out group-hover:scale-x-100" />
-        </a>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">

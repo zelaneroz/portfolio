@@ -54,7 +54,7 @@ export const experiences: ExperienceItem[] = [
   },
 
   {
-    id: "kpmg",
+    id: "maia",
     org: "MIT AI Alignment Initiative",
     role: "AI Safety Fellow",
     startDate: "July 2026",
@@ -218,7 +218,7 @@ export const experiences: ExperienceItem[] = [
   },
 
   {
-    id: "biswas-lab",
+    id: "ntu",
     org: "Nanyang Technological University",
     role: "Research Assistant",
     startDate: "Feb 2026",

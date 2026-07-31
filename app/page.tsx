@@ -4,10 +4,10 @@ import NewLanding from "../components/NewLanding";
 import About from "../components/About";
 
 const NewWork = dynamic(() => import("../components/NewWork"));
-const ProjectsFeaturesSection = dynamic(() => import("../components/NewProject"));
-const FieldNotes = dynamic(() =>
-  import("../components/FieldNotes").then((mod) => ({ default: mod.FieldNotes }))
-);
+const Projects = dynamic(() => import("../components/Projects"));
+// const FieldNotes = dynamic(() =>
+//   import("../components/FieldNotes").then((mod) => ({ default: mod.FieldNotes }))
+// );
 const End = dynamic(() => import("../components/End"));
 
 export default function Home() {
@@ -16,8 +16,7 @@ export default function Home() {
       <NewLanding />       {/* loads immediately — above fold */}
       <About />
       <NewWork />
-      <ProjectsFeaturesSection />
-      <FieldNotes />
+      <Projects />
       <End />
     </main>
   );
