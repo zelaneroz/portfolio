@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { track } from "@vercel/analytics";
 import { motion, AnimatePresence } from "framer-motion";

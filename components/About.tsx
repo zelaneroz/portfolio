@@ -90,9 +90,9 @@ export default function About() {
 
       <p>
         I’m motivated by the challenge of becoming a more{" "}
-        <strong>thoughtful, smart,</strong> and{" "}
+        <strong>thoughtful</strong> and{" "}
         <strong>capable engineer</strong> every day. I believe
-        that as tech grows, so should its inclusivity and
+        that as tech grows, so should its accessbility and
         responsibility.
       </p>
 
@@ -100,8 +100,7 @@ export default function About() {
         Outside the codebase, I love experiencing new cultures
         through travel and meaningful conversations (apparently
         getting a good story out of a taxi driver is my
-        specialty). I love to paint and go to art museums. Oh,
-        and I’m getting back to writing lately.
+        specialty). I love to paint and go to art museums. I’m also getting back to writing lately!
       </p>
 
       <p>

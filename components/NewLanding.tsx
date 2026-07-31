@@ -15,7 +15,7 @@ const navLinks = [
   },
   {
     label: "BRAIN",
-    href: "#brain",
+    href: "/brain",
   },
 ];
 
