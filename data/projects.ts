@@ -17,7 +17,7 @@ export const projectCards: ProjectCard[] = [
   blurb:
     "Analyzed trade-off between speed, GPU parallelism, and energy cost. Quantified that scaling GPUs for faster inference increases energy use by up to 55%, giving KPMG a clearer framework for evaluating when performance gains justify added compute.",
   image: "/logos/kpmg.webp",
-  link: "https://github.com/zelaneroz/kpmg_1c_2025",
+  link: "https://github.com/zelaneroz/kpmg_btt",
 },
 {
   id: "kincare",
